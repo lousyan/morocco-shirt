@@ -185,9 +185,8 @@ footer{
         <div class="error-message" id="addressError">الرجاء إدخال عنوان صحيح</div>
 
         <input type="tel" id="phone" placeholder="رقم الهاتف">
-        <div class="error-message" id="phoneError">الرجاء إدخال رقم هاتف صحيح (+212 أو 06)</div>
+        <div class="error-message" id="phoneError">الرجاء إدخال رقم هاتف صحيح (+212 أو 06 أو 07)</div>
 
-        <!-- غير رقم الواتساب هنا -->
         <a id="whatsappLink" class="whatsapp" href="#" target="_blank">
             تأكيد الطلب عبر واتساب
         </a>
@@ -208,13 +207,19 @@ function selectSize(el){
     validateForm();
 }
 
-// التحقق من صحة البيانات
+// التحقق من النصوص (اسم، مدينة) باللغات العربية، الفرنسية، الإنجليزية
 function validateText(value){
     return /^[A-Za-zÀ-ÿء-ي\s'-]+$/.test(value);
 }
 
+// التحقق من العنوان (حروف + أرقام + رموز بسيطة)
+function validateAddress(value){
+    return /^[A-Za-zÀ-ÿء-ي0-9\s.,'-]+$/.test(value);
+}
+
+// التحقق من الهاتف (+212، 06، 07)
 function validatePhone(value){
-    return /^(?:\+2126\d{8}|06\d{8})$/.test(value);
+    return /^(?:\+2126\d{8}|06\d{8}|07\d{8})$/.test(value);
 }
 
 function validateForm(){
@@ -248,7 +253,7 @@ function validateForm(){
 
     // العنوان
     let address = document.getElementById('address').value.trim();
-    if(!validateText(address)){
+    if(!validateAddress(address)){
         document.getElementById('addressError').style.display='block';
         valid = false;
     }else{
