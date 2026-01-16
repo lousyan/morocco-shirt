@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -9,69 +8,93 @@
 <style>
 body{
     margin:0;
-    font-family: "Segoe UI", Tahoma;
-    background:#f2f2f2;
+    font-family: 'Segoe UI', Tahoma;
+    background:#f4f4f4;
     direction:rtl;
 }
 
 header{
-    background:#c1272d;
+    background:linear-gradient(135deg,#c1272d,#a81f24);
     color:white;
-    padding:25px;
     text-align:center;
+    padding:30px 15px;
 }
 
-header span{
+header .star{
     color:#006233;
-    font-size:28px;
+    font-size:34px;
 }
 
-.product-card{
+.container{
+    max-width:450px;
+    margin:25px auto;
     background:white;
-    max-width:420px;
-    margin:30px auto;
-    border-radius:15px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    border-radius:18px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.15);
     overflow:hidden;
 }
 
-.product-card img{
+.container img{
     width:100%;
+    display:block;
 }
 
 .content{
     padding:20px;
 }
 
-.content h2{
+h2{
     color:#c1272d;
-    margin:0 0 10px;
+    margin-bottom:10px;
 }
 
 .price{
-    font-size:26px;
+    font-size:28px;
     color:#006233;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+.sizes{
+    display:flex;
+    gap:10px;
     margin-bottom:15px;
 }
 
-select{
+.size{
+    flex:1;
+    padding:10px;
+    border:2px solid #c1272d;
+    text-align:center;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.size.active{
+    background:#c1272d;
+    color:white;
+}
+
+input{
     width:100%;
     padding:12px;
-    border-radius:8px;
-    border:1px solid #ddd;
-    font-size:16px;
+    margin-bottom:10px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:15px;
 }
 
 .whatsapp{
-    margin-top:15px;
     display:block;
-    text-align:center;
-    padding:14px;
+    margin-top:15px;
     background:#25D366;
     color:white;
+    text-align:center;
+    padding:15px;
+    border-radius:12px;
     font-size:18px;
     text-decoration:none;
-    border-radius:10px;
     font-weight:bold;
 }
 
@@ -81,9 +104,9 @@ select{
 
 footer{
     text-align:center;
-    color:#777;
     font-size:14px;
-    margin:30px 0;
+    color:#777;
+    margin:25px 0;
 }
 </style>
 </head>
@@ -91,34 +114,67 @@ footer{
 <body>
 
 <header>
-    <h1>قميص المنتخب المغربي <span>★</span></h1>
+    <h1>قميص المنتخب المغربي <span class="star">★</span></h1>
+    <p>الجودة الأصلية – فخر المغاربة 🇲🇦</p>
 </header>
 
-<div class="product-card">
+<div class="container">
     <img src="shirt.jpg" alt="قميص المنتخب المغربي">
 
     <div class="content">
-        <h2>قميص رسمي بجودة ممتازة</h2>
+        <h2>قميص رسمي عالي الجودة</h2>
         <div class="price">60 درهم</div>
 
-        <select>
-            <option>اختر المقاس</option>
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
-        </select>
+        <strong>اختر المقاس:</strong>
+        <div class="sizes">
+            <div class="size" onclick="selectSize(this)">S</div>
+            <div class="size" onclick="selectSize(this)">M</div>
+            <div class="size" onclick="selectSize(this)">L</div>
+            <div class="size" onclick="selectSize(this)">XL</div>
+        </div>
 
-        <!-- غيّر رقم الواتساب هنا -->
-        <a class="whatsapp" href="https://wa.me/212600000000" target="_blank">
-            اطلب عبر واتساب
+        <input type="text" id="name" placeholder="الاسم الكامل">
+        <input type="text" id="city" placeholder="المدينة">
+        <input type="text" id="address" placeholder="العنوان">
+        <input type="tel" id="phone" placeholder="رقم الهاتف">
+
+        <!-- غير رقم الواتساب هنا -->
+        <a id="whatsappLink" class="whatsapp" href="#" target="_blank">
+            تأكيد الطلب عبر واتساب
         </a>
     </div>
 </div>
 
 <footer>
-    © 2026 متجر القميص المغربي
+    © 2026 متجر القميص المغربي 🇲🇦
 </footer>
+
+<script>
+let selectedSize = "";
+
+function selectSize(el){
+    document.querySelectorAll('.size').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    selectedSize = el.innerText;
+}
+
+document.getElementById("whatsappLink").onclick = function(){
+    let name = document.getElementById("name").value;
+    let city = document.getElementById("city").value;
+    let address = document.getElementById("address").value;
+    let phone = document.getElementById("phone").value;
+
+    let message = 
+        "طلب جديد:%0A" +
+        "الاسم: " + name + "%0A" +
+        "المقاس: " + selectedSize + "%0A" +
+        "المدينة: " + city + "%0A" +
+        "العنوان: " + address + "%0A" +
+        "الهاتف: " + phone;
+
+    this.href = "https://wa.me/212600000000?text=" + message;
+};
+</script>
 
 </body>
 </html>
