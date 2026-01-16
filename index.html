@@ -1,111 +1,123 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <title>قميص المنتخب المغربي</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Tahoma, Arial;
-            background-color: #f5f5f5;
-            direction: rtl;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قميص المنتخب المغربي</title>
 
-        header {
-            background-color: #c1272d;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+<style>
+body{
+    margin:0;
+    font-family: "Segoe UI", Tahoma;
+    background:#f2f2f2;
+    direction:rtl;
+}
 
-        .star {
-            color: #006233;
-            font-size: 30px;
-        }
+header{
+    background:#c1272d;
+    color:white;
+    padding:25px;
+    text-align:center;
+}
 
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            margin-top: 20px;
-            border-radius: 10px;
-        }
+header span{
+    color:#006233;
+    font-size:28px;
+}
 
-        img {
-            width: 100%;
-            max-width: 350px;
-            display: block;
-            margin: auto;
-        }
+.product-card{
+    background:white;
+    max-width:420px;
+    margin:30px auto;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    overflow:hidden;
+}
 
-        h2 {
-            color: #c1272d;
-            text-align: center;
-        }
+.product-card img{
+    width:100%;
+}
 
-        .price {
-            font-size: 24px;
-            color: #006233;
-            text-align: center;
-            margin: 10px 0;
-        }
+.content{
+    padding:20px;
+}
 
-        select, button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            font-size: 16px;
-        }
+.content h2{
+    color:#c1272d;
+    margin:0 0 10px;
+}
 
-        button {
-            background-color: #c1272d;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+.price{
+    font-size:26px;
+    color:#006233;
+    margin-bottom:15px;
+}
 
-        button:hover {
-            background-color: #a81f24;
-        }
+select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-size:16px;
+}
 
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            color: gray;
-            font-size: 14px;
-        }
-    </style>
+.whatsapp{
+    margin-top:15px;
+    display:block;
+    text-align:center;
+    padding:14px;
+    background:#25D366;
+    color:white;
+    font-size:18px;
+    text-decoration:none;
+    border-radius:10px;
+    font-weight:bold;
+}
+
+.whatsapp:hover{
+    background:#1ebe5b;
+}
+
+footer{
+    text-align:center;
+    color:#777;
+    font-size:14px;
+    margin:30px 0;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h1>قميص المنتخب المغربي</h1>
-    <div class="star">★</div>
+    <h1>قميص المنتخب المغربي <span>★</span></h1>
 </header>
 
-<div class="container">
+<div class="product-card">
     <img src="shirt.jpg" alt="قميص المنتخب المغربي">
 
-    <h2>قميص رسمي بجودة عالية</h2>
+    <div class="content">
+        <h2>قميص رسمي بجودة ممتازة</h2>
+        <div class="price">60 درهم</div>
 
-    <div class="price">60 درهم</div>
+        <select>
+            <option>اختر المقاس</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+        </select>
 
-    <label>اختر المقاس:</label>
-    <select>
-        <option>S</option>
-        <option>M</option>
-        <option>L</option>
-        <option>XL</option>
-    </select>
-
-    <button>اطلب الآن</button>
+        <!-- غيّر رقم الواتساب هنا -->
+        <a class="whatsapp" href="https://wa.me/212600000000" target="_blank">
+            اطلب عبر واتساب
+        </a>
+    </div>
 </div>
 
 <footer>
-    © 2026 جميع الحقوق محفوظة
+    © 2026 متجر القميص المغربي
 </footer>
 
 </body>
