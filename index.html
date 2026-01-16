@@ -17,12 +17,32 @@ header{
     background:linear-gradient(135deg,#c1272d,#a81f24);
     color:white;
     text-align:center;
-    padding:30px 15px;
+    padding:25px 15px;
 }
 
 header .star{
     color:#006233;
     font-size:34px;
+}
+
+.lang-buttons{
+    text-align:center;
+    margin-top:10px;
+}
+
+.lang-buttons button{
+    margin:5px;
+    padding:8px 12px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    background:#006233;
+    color:white;
+}
+
+.lang-buttons button:hover{
+    background:#004d1a;
 }
 
 .container{
@@ -85,6 +105,17 @@ input{
     font-size:15px;
 }
 
+input.error{
+    border-color:red;
+}
+
+.error-message{
+    color:red;
+    font-size:13px;
+    margin-bottom:5px;
+    display:none;
+}
+
 .whatsapp{
     display:block;
     margin-top:15px;
@@ -96,10 +127,13 @@ input{
     font-size:18px;
     text-decoration:none;
     font-weight:bold;
+    pointer-events:none;
+    opacity:0.5;
 }
 
-.whatsapp:hover{
-    background:#1ebe5b;
+.whatsapp.active{
+    pointer-events:auto;
+    opacity:1;
 }
 
 footer{
@@ -115,17 +149,23 @@ footer{
 
 <header>
     <h1>قميص المنتخب المغربي <span class="star">★</span></h1>
-    <p>الجودة الأصلية – فخر المغاربة 🇲🇦</p>
+    <p id="tagline">الجودة الأصلية – فخر المغاربة 🇲🇦</p>
 </header>
+
+<div class="lang-buttons">
+    <button onclick="translatePage('ar')">العربية</button>
+    <button onclick="translatePage('fr')">Français</button>
+    <button onclick="translatePage('en')">English</button>
+</div>
 
 <div class="container">
     <img src="shirt.jpg" alt="قميص المنتخب المغربي">
 
     <div class="content">
-        <h2>قميص رسمي عالي الجودة</h2>
+        <h2 id="title">قميص رسمي عالي الجودة</h2>
         <div class="price">60 درهم</div>
 
-        <strong>اختر المقاس:</strong>
+        <strong id="sizeLabel">اختر المقاس:</strong>
         <div class="sizes">
             <div class="size" onclick="selectSize(this)">S</div>
             <div class="size" onclick="selectSize(this)">M</div>
@@ -133,10 +173,19 @@ footer{
             <div class="size" onclick="selectSize(this)">XL</div>
         </div>
 
+        <div class="error-message" id="sizeError">اختر المقاس</div>
+
         <input type="text" id="name" placeholder="الاسم الكامل">
+        <div class="error-message" id="nameError">الرجاء إدخال اسم صحيح (العربية/الفرنسية/الإنجليزية)</div>
+
         <input type="text" id="city" placeholder="المدينة">
+        <div class="error-message" id="cityError">الرجاء إدخال اسم مدينة صحيح</div>
+
         <input type="text" id="address" placeholder="العنوان">
+        <div class="error-message" id="addressError">الرجاء إدخال عنوان صحيح</div>
+
         <input type="tel" id="phone" placeholder="رقم الهاتف">
+        <div class="error-message" id="phoneError">الرجاء إدخال رقم هاتف صحيح (+212 أو 06)</div>
 
         <!-- غير رقم الواتساب هنا -->
         <a id="whatsappLink" class="whatsapp" href="#" target="_blank">
@@ -150,30 +199,139 @@ footer{
 </footer>
 
 <script>
+// اختيار المقاس
 let selectedSize = "";
-
 function selectSize(el){
     document.querySelectorAll('.size').forEach(s => s.classList.remove('active'));
     el.classList.add('active');
     selectedSize = el.innerText;
+    validateForm();
 }
 
-document.getElementById("whatsappLink").onclick = function(){
-    let name = document.getElementById("name").value;
-    let city = document.getElementById("city").value;
-    let address = document.getElementById("address").value;
-    let phone = document.getElementById("phone").value;
+// التحقق من صحة البيانات
+function validateText(value){
+    return /^[A-Za-zÀ-ÿء-ي\s'-]+$/.test(value);
+}
 
-    let message = 
-        "طلب جديد:%0A" +
-        "الاسم: " + name + "%0A" +
-        "المقاس: " + selectedSize + "%0A" +
-        "المدينة: " + city + "%0A" +
-        "العنوان: " + address + "%0A" +
-        "الهاتف: " + phone;
+function validatePhone(value){
+    return /^(?:\+2126\d{8}|06\d{8})$/.test(value);
+}
 
-    this.href = "https://wa.me/212600000000?text=" + message;
-};
+function validateForm(){
+    let valid = true;
+
+    // المقاس
+    if(selectedSize === ""){
+        document.getElementById('sizeError').style.display='block';
+        valid = false;
+    }else{
+        document.getElementById('sizeError').style.display='none';
+    }
+
+    // الاسم
+    let name = document.getElementById('name').value.trim();
+    if(!validateText(name)){
+        document.getElementById('nameError').style.display='block';
+        valid = false;
+    }else{
+        document.getElementById('nameError').style.display='none';
+    }
+
+    // المدينة
+    let city = document.getElementById('city').value.trim();
+    if(!validateText(city)){
+        document.getElementById('cityError').style.display='block';
+        valid = false;
+    }else{
+        document.getElementById('cityError').style.display='none';
+    }
+
+    // العنوان
+    let address = document.getElementById('address').value.trim();
+    if(!validateText(address)){
+        document.getElementById('addressError').style.display='block';
+        valid = false;
+    }else{
+        document.getElementById('addressError').style.display='none';
+    }
+
+    // الهاتف
+    let phone = document.getElementById('phone').value.trim();
+    if(!validatePhone(phone)){
+        document.getElementById('phoneError').style.display='block';
+        valid = false;
+    }else{
+        document.getElementById('phoneError').style.display='none';
+    }
+
+    // تفعيل زر واتساب
+    let link = document.getElementById('whatsappLink');
+    if(valid){
+        link.classList.add('active');
+        let message = 
+            "طلب جديد:%0A"+
+            "الاسم: "+name+"%0A"+
+            "المقاس: "+selectedSize+"%0A"+
+            "المدينة: "+city+"%0A"+
+            "العنوان: "+address+"%0A"+
+            "الهاتف: "+phone;
+        link.href = "https://wa.me/212774159944?text=" + message;
+    }else{
+        link.classList.remove('active');
+        link.href="#";
+    }
+}
+
+// تحقق عند كل تغيير
+document.getElementById('name').addEventListener('input', validateForm);
+document.getElementById('city').addEventListener('input', validateForm);
+document.getElementById('address').addEventListener('input', validateForm);
+document.getElementById('phone').addEventListener('input', validateForm);
+
+// ترجمة الصفحة
+function translatePage(lang){
+    const texts = {
+        ar:{
+            tagline:"الجودة الأصلية – فخر المغاربة 🇲🇦",
+            title:"قميص رسمي عالي الجودة",
+            sizeLabel:"اختر المقاس:",
+            name:"الاسم الكامل",
+            city:"المدينة",
+            address:"العنوان",
+            phone:"رقم الهاتف",
+            whatsapp:"تأكيد الطلب عبر واتساب"
+        },
+        fr:{
+            tagline:"Qualité originale – Fierté du Maroc 🇲🇦",
+            title:"Maillot officiel de haute qualité",
+            sizeLabel:"Choisissez la taille:",
+            name:"Nom complet",
+            city:"Ville",
+            address:"Adresse",
+            phone:"Numéro de téléphone",
+            whatsapp:"Confirmer la commande via WhatsApp"
+        },
+        en:{
+            tagline:"Original quality – Pride of Morocco 🇲🇦",
+            title:"Official high-quality jersey",
+            sizeLabel:"Select size:",
+            name:"Full Name",
+            city:"City",
+            address:"Address",
+            phone:"Phone number",
+            whatsapp:"Confirm order via WhatsApp"
+        }
+    };
+
+    document.getElementById('tagline').innerText = texts[lang].tagline;
+    document.getElementById('title').innerText = texts[lang].title;
+    document.getElementById('sizeLabel').innerText = texts[lang].sizeLabel;
+    document.getElementById('name').placeholder = texts[lang].name;
+    document.getElementById('city').placeholder = texts[lang].city;
+    document.getElementById('address').placeholder = texts[lang].address;
+    document.getElementById('phone').placeholder = texts[lang].phone;
+    document.getElementById('whatsappLink').innerText = texts[lang].whatsapp;
+}
 </script>
 
 </body>
